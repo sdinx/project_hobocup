@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class OutPipeline : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public InPileline inPipe;
+    public Vector3 outWaterPosition;
+
+    // Use this for initialization
+    void Start ()
+    {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
 }
