@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\CarryCup.cs" />
     <Compile Include="Assets\Scripts\FollowObject.cs" />
     <Compile Include="Assets\Scripts\InPipeline.cs" />
+    <Compile Include="Assets\Scripts\MoveFloor.cs" />
     <Compile Include="Assets\Scripts\OutPipeline.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\WaterGenerator.cs" />
