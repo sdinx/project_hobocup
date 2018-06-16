@@ -24,10 +24,12 @@ public class CarryCup: MonoBehaviour
     private float currentTime;
     private Vector3 setEuler;
     private Stopwatch stopWatch;
+    private Animator animator;
 
     // Use this for initialization
     void Start ()
     {
+        animator = GetComponentInParent<Animator>();
         setEuler = new Vector3();
         stopWatch = new Stopwatch();
     }

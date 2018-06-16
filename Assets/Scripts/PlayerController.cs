@@ -9,12 +9,13 @@ public class PlayerController : MonoBehaviour {
 
     private bool isPlayerDirection = true;// true: 右向き,  false: 左向き
     private bool isJumpReady = false;
-    private bool isAnimation = false;
     private Animator anim;
+    private PlayerState playerState;
 
 	// Use this for initialization
 	void Start ()
     {
+        playerState = GetComponentInChildren<CarryCup>().playerState;
         GetComponent<SphereCollider>().isTrigger = true;
         anim = GetComponent<Animator>();
         anim.CrossFade( "Standby", 0 );
@@ -28,33 +29,32 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        Rigidbody rigid = GetComponent<Rigidbody>();
         Vector3 move = Vector3.zero;
         move.x = Input.GetAxis( "Horizontal" ) * movePower.x;
-        if ( isAnimation == false && move.x != 0f )
+
+        if (isJumpReady && move.x != 0f)
         {
-            anim.CrossFade( "Walk", 0 );
-            isAnimation = true;
+            anim.CrossFade("Walk", 0);
+
+            // プレイヤーの向き
+            if (move.x > 0f)
+                isPlayerDirection = true;
+            else
+                isPlayerDirection = false;
         }
-        else if ( isAnimation && move.x == 0f )
+        else if (isJumpReady && move.x == 0f)
         {
             anim.CrossFade( "Standby", 0 );
-            isAnimation = false;
         }
-        if ( move.x > 0f )
-            isPlayerDirection = true;
-        else
-            isPlayerDirection = false;
 
-        if ( isJumpReady && GetComponentInChildren<CarryCup>().playerState == PlayerState.Return && Input.GetButtonDown( "Jump" ) ) { }
-        if( Input.GetButtonDown( "Jump" ))
+        if (isJumpReady && (playerState == PlayerState.Return || playerState == PlayerState.None) && Input.GetButtonDown("Jump")) 
         {
-            move.y = movePower.y;
+            GetComponent<Rigidbody>().AddForce(new Vector3(0, movePower.y, 0), ForceMode.Force);
             isJumpReady = false;
-            anim.CrossFade( "Standby", 0 );
+            anim.CrossFade( "Jump", 0 );
         }
 
-        rigid.AddForce( move, ForceMode.Force );
+        transform.position += move;
 
     }
 
