@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InPileline : MonoBehaviour {
+public class InPipeline : MonoBehaviour {
 
-    public Vector3 inWaterPosition;
-    public bool isInWater { get; set; }
+    public float fRunningTime;// 水が注がれた時間
 
 	// Use this for initialization
-	void Start ()
-    {
-        isInWater = false;
-
-    }
+	void Start () {
+		
+	}
 	
 	// Update is called once per frame
-	void Update ()
-    {
+	void Update () {
 		
 	}
 }

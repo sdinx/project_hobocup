@@ -12,7 +12,7 @@ public enum PlayerState
     Return
 };
 
-public class CarryCup: MonoBehaviour
+public class CarryCup : MonoBehaviour
 {
 
     public Transform carrier;
@@ -24,20 +24,22 @@ public class CarryCup: MonoBehaviour
     private float currentTime;
     private Vector3 setEuler;
     private Stopwatch stopWatch;
+    private bool isTimerStarted;
     private Animator animator;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
+        isTimerStarted = false;
         animator = GetComponentInParent<Animator>();
         setEuler = new Vector3();
         stopWatch = new Stopwatch();
-    }
+    }// end Start()
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
-        switch(playerState)
+        switch (playerState)
         {
             case PlayerState.Carry:
             {
@@ -59,16 +61,18 @@ public class CarryCup: MonoBehaviour
                 playerState = RunWaterState();
             }
             break;
-            default: break;/* NOTHING */
+            default:
+                /* NOTHING */
+            break;
         }// end switch
 
-    }
+    }// end Update()
 
     // 範囲内のコップの持ち上げ
-    void OnTriggerStay ( Collider obj )
+    void OnTriggerStay( Collider obj )
     {
 
-        if ( playerState != PlayerState.Carrying && playerState != PlayerState.Carry && Input.GetButtonDown( "Catch" ) && obj.gameObject.CompareTag( "Cup" ) )
+        if (playerState != PlayerState.Carrying && playerState != PlayerState.Carry && Input.GetButtonDown( "Catch" ) && obj.gameObject.CompareTag( "Cup" ))
         {
             target = obj.gameObject.transform;
 
@@ -85,12 +89,12 @@ public class CarryCup: MonoBehaviour
             currentTime = Time.deltaTime;
             stopWatch.Start();
         }
-    }
+    }// end OnTriggerStay()
 
-    void OnTriggerExit ()
+    void OnTriggerExit()
     {
 
-    }
+    }// end OnTriggerExit()
 
     public PlayerState CarryState()
     {
@@ -98,13 +102,13 @@ public class CarryCup: MonoBehaviour
         carrier.position = Vector3.Slerp( carrier.position, target.position, Time.deltaTime );
         target.position = Vector3.Slerp( target.position, carryPosition + carrier.position, Time.deltaTime );
 
-        if ( stopWatch.ElapsedMilliseconds > 1500 )
+        if (stopWatch.ElapsedMilliseconds > 1500)
         {
             stopWatch.Stop();
             stopWatch.Reset();
             state = PlayerState.Carrying;
         }
-        else if ( Input.GetButtonDown( "Jump" ) )
+        else if (Input.GetButtonDown( "Jump" ))
         {
             stopWatch.Stop();
             stopWatch.Reset();
@@ -112,24 +116,24 @@ public class CarryCup: MonoBehaviour
         }
 
         return state;
-    }
+    }// end CarryState()
 
-    public PlayerState CarryingState ()
+    public PlayerState CarryingState()
     {
         PlayerState state = playerState;
 
         var followObject = target.gameObject.GetComponent<FollowObject>();
-        if ( followObject == null )
+        if (followObject == null)
         {
             followObject = target.gameObject.AddComponent<FollowObject>();
             followObject.followObject = carrier;
         }
 
-        if ( Input.GetButtonDown( "Fire3" ) )
+        if (Input.GetButtonDown( "Fire3" ))
         {
             state = PlayerState.Return;
         }
-        else if ( Input.GetButtonDown( "Catch" ) )
+        else if (Input.GetButtonDown( "Catch" ))
         {
             state = PlayerState.RunWater;
             setEuler = target.gameObject.transform.rotation.eulerAngles;
@@ -137,36 +141,51 @@ public class CarryCup: MonoBehaviour
         }
 
         return state;
-    }
+    }// end CarryingState()
 
-    public PlayerState ReturnState ()
+    public PlayerState ReturnState()
     {
         PlayerState state = playerState;
 
         var followObject = target.gameObject.GetComponent<FollowObject>();
-        if ( followObject != null )
+        if (followObject != null)
             Destroy( followObject );
 
         carrier.position = Vector3.Lerp( carrier.position, new Vector3( carrier.position.x, carrier.position.y, 250 ), Time.deltaTime );
 
         return state;
-    }
+    }// end ReturnState()
 
-    public PlayerState RunWaterState ()
+    public PlayerState RunWaterState()
     {
         PlayerState state = playerState;
 
         //target.gameObject.transform.rotation = Quaternion.Euler(setEuler);
 
-        target.gameObject.transform.rotation = Quaternion.Slerp(target.gameObject.transform.rotation, Quaternion.Euler(setEuler), Time.deltaTime );
+        target.gameObject.transform.rotation = Quaternion.Slerp( target.gameObject.transform.rotation, Quaternion.Euler( setEuler ), Time.deltaTime );
 
-        if ( Input.GetButtonDown( "Fire3" ) )
+        if (Input.GetButtonDown( "Fire3" ))
         {
-            state = PlayerState.Carrying;
+            if (isTimerStarted == false)
+            {
+                isTimerStarted = true;
+                stopWatch.Start();
+            }// end if
+
         }
 
+        if (isTimerStarted == true)
+            if (stopWatch.ElapsedMilliseconds > 3000)
+            {
+                isTimerStarted = false;
+                stopWatch.Stop();
+                stopWatch.Reset();
+                state = PlayerState.Carrying;
+            }// end if
+            else
+                target.gameObject.transform.rotation = Quaternion.Lerp( target.gameObject.transform.rotation, Quaternion.Euler( 0, 0, 0 ), Time.deltaTime * 4 );
 
         return state;
-    }
+    }// end RunWaterState()
 
 }

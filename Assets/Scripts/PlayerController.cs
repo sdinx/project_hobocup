@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     public Vector2 movePower;
     public float maxPower;
@@ -12,17 +13,17 @@ public class PlayerController : MonoBehaviour {
     private Animator anim;
     private PlayerState playerState;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         playerState = GetComponentInChildren<CarryCup>().playerState;
         GetComponent<SphereCollider>().isTrigger = true;
         anim = GetComponent<Animator>();
         anim.CrossFade( "Standby", 0 );
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
 
     }
@@ -34,7 +35,10 @@ public class PlayerController : MonoBehaviour {
 
         if (isJumpReady && move.x != 0f)
         {
-            anim.CrossFade("Walk", 0);
+            if (( playerState == PlayerState.Return || playerState == PlayerState.None ))
+                anim.CrossFade( "CarryingWalk", 0 );
+            else
+                anim.CrossFade( "CarryingWalk", 0 );
 
             // プレイヤーの向き
             if (move.x > 0f)
@@ -47,9 +51,9 @@ public class PlayerController : MonoBehaviour {
             anim.CrossFade( "Standby", 0 );
         }
 
-        if (isJumpReady && (playerState == PlayerState.Return || playerState == PlayerState.None) && Input.GetButtonDown("Jump")) 
+        if (isJumpReady && ( playerState == PlayerState.Return || playerState == PlayerState.None ) && Input.GetButtonDown( "Jump" ))
         {
-            GetComponent<Rigidbody>().AddForce(new Vector3(0, movePower.y, 0), ForceMode.Force);
+            GetComponent<Rigidbody>().AddForce( new Vector3( 0, movePower.y, 0 ), ForceMode.Force );
             isJumpReady = false;
             anim.CrossFade( "Jump", 0 );
         }
@@ -58,12 +62,12 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter ()
+    void OnTriggerEnter()
     {
         isJumpReady = true;
     }
 
-    void OnTriggerExit ()
+    void OnTriggerExit()
     {
         isJumpReady = false;
     }
