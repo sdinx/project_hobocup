@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\MoveFloor.cs" />
      <Compile Include="Assets\Scripts\OutPipeline.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\RecoveryFallout.cs" />
      <Compile Include="Assets\Scripts\WaterGenerator.cs" />
      <Compile Include="Assets\Scripts\WaterMillGimmick.cs" />
      <Compile Include="Assets\Scripts\WaterReceiver.cs" />
