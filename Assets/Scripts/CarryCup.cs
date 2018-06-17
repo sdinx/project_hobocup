@@ -19,18 +19,22 @@ public class CarryCup : MonoBehaviour
     public Vector3 carryPosition;
     public PlayerState playerState;
 
-    private Transform target;
+    private Transform target = null;
     private Vector3 targetDirection;
     private float currentTime;
     private Vector3 setEuler;
     private Stopwatch stopWatch;
     private bool isTimerStarted;
     private Animator animator;
+    private PlayerController playerController;
+    private float fReturnZ = 0f;
 
     // Use this for initialization
     void Start()
     {
         isTimerStarted = false;
+        playerController = GetComponentInParent<PlayerController>();
+        fReturnZ = playerController.GetComponentInParent<Transform>().position.z;
         animator = GetComponentInParent<Animator>();
         setEuler = new Vector3();
         stopWatch = new Stopwatch();
@@ -63,8 +67,14 @@ public class CarryCup : MonoBehaviour
             break;
             default:
                 /* NOTHING */
-            break;
+                break;
         }// end switch
+
+        if (target.gameObject.GetComponent<FollowObject>() != null)
+            if (playerController.isPlayerDirection)
+                target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, 0, target.rotation.eulerAngles.z );
+            else
+                target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, -180, target.rotation.eulerAngles.z );
 
     }// end Update()
 
@@ -108,7 +118,7 @@ public class CarryCup : MonoBehaviour
             stopWatch.Reset();
             state = PlayerState.Carrying;
         }
-        else if (Input.GetButtonDown( "Jump" ))
+        else if (playerController.isControll && Input.GetButtonDown( "Jump" ))
         {
             stopWatch.Stop();
             stopWatch.Reset();
@@ -129,11 +139,11 @@ public class CarryCup : MonoBehaviour
             followObject.followObject = carrier;
         }
 
-        if (Input.GetButtonDown( "Fire3" ))
+        if (playerController.isControll && Input.GetButtonDown( "Fire3" ))
         {
             state = PlayerState.Return;
         }
-        else if (Input.GetButtonDown( "Catch" ))
+        else if (playerController.isControll && Input.GetButtonDown( "Catch" ))
         {
             state = PlayerState.RunWater;
             setEuler = target.gameObject.transform.rotation.eulerAngles;
@@ -151,7 +161,7 @@ public class CarryCup : MonoBehaviour
         if (followObject != null)
             Destroy( followObject );
 
-        carrier.position = Vector3.Lerp( carrier.position, new Vector3( carrier.position.x, carrier.position.y, 250 ), Time.deltaTime );
+        carrier.position = Vector3.Lerp( carrier.position, new Vector3( carrier.position.x, carrier.position.y, fReturnZ ), Time.deltaTime );
 
         return state;
     }// end ReturnState()
@@ -164,7 +174,7 @@ public class CarryCup : MonoBehaviour
 
         target.gameObject.transform.rotation = Quaternion.Slerp( target.gameObject.transform.rotation, Quaternion.Euler( setEuler ), Time.deltaTime );
 
-        if (Input.GetButtonDown( "Fire3" ))
+        if (playerController.isControll && Input.GetButtonDown( "Fire3" ))
         {
             if (isTimerStarted == false)
             {

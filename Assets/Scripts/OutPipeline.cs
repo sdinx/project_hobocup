@@ -20,7 +20,8 @@ public class OutPipeline : MonoBehaviour
         //else if (GetComponent<CapsuleCollider>() != null)
         //    outWaterPosition = GetComponent<CapsuleCollider>().center;
 
-        waterParticle = GetComponent<ParticleSystem>();
+        waterParticle = GetComponentInChildren<ParticleSystem>();
+        waterParticle.Stop();
     }
 
     // Update is called once per frame
@@ -29,6 +30,7 @@ public class OutPipeline : MonoBehaviour
         // 水が流れた場合
         if (inPipe.fRunningTime > 0f)
         {
+            inPipe.fRunningTime -= 0.1f;
             waterParticle.Play();
         }
         else

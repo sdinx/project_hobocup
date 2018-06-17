@@ -5,9 +5,10 @@ using UnityEngine;
 public class MoveFloor : MonoBehaviour
 {
 
+    public Gimmick gimmick = null;
     public float fSpeed = 1f;
-    public Vector3 moveLimit;
-    public bool moveDirection;
+    public float fHeightLimit = 11f;
+    public bool isLeftRight;
 
     private Vector3 currentPos;
     private bool isMove;
@@ -16,63 +17,77 @@ public class MoveFloor : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        isMove = true;
-        if (moveDirection)
-            isMove = false;
-        angle = 180f;
         currentPos = new Vector3();
-        currentPos = transform.position;
+        currentPos = transform.localPosition;
+
+        if (isLeftRight)
+        {
+            isMove = false;
+        }// end if
+        else
+        {
+            isMove = true;
+            currentPos.x -= 4f;
+        }// end else
+
+        angle = 180f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 move = new Vector3( 0, 0, 0 );
+        if (gimmick == null || gimmick.isGimmickEnable || gimmick.fGimmickControll != 0f)
+        {
+            Vector3 move = new Vector3( 0, 0, 0 );
 
-        if (moveDirection)
-        {
-            move.y = -0.1f * fSpeed;
-            if (transform.position.y <= 0f)
+            if (isLeftRight)
             {
-                if (!isMove)
-                    angle = 0;
-                isMove = true;
-                if (transform.position.y <= -3f)
-                    moveDirection = false;
-            }
-        }
-        else
-        {
-            move.y = 0.1f * fSpeed;
-            if (transform.position.y >= 8f)
-            {
-                if (isMove)
-                    angle = 0;
-                isMove = false;
-                if (transform.position.y >= 11f)
-                    moveDirection = true;
-            }
-        }
+                move.y = -0.1f * fSpeed;
+                if (transform.position.y <= 0f)
+                {
+                    if (!isMove)
+                        angle = 0;
+                    isMove = true;
 
-        if (isMove)
-        {
-            if (angle < 180f)
+                    if (transform.position.y <= -3f)
+                        isLeftRight = false;
+                }// end if
+            }// end if
+            else
             {
-                angle += 3f * fSpeed;
-                transform.rotation = Quaternion.Euler( 0, 0, angle );
-            }
-            transform.position = Vector3.Lerp( transform.position, new Vector3( currentPos.x + 4f, transform.position.y, transform.position.z ), Time.deltaTime * ( 2 * fSpeed ) );
-        }
-        else
-        {
-            if (angle < 180f)
-            {
-                angle += 3f * fSpeed;
-                transform.rotation = Quaternion.Euler( 0, 0, 180 + angle );
-            }
-            transform.position = Vector3.Lerp( transform.position, new Vector3( currentPos.x, transform.position.y, transform.position.z ), Time.deltaTime * ( 2 * fSpeed ) );
-        }
+                move.y = 0.1f * fSpeed;
+                if (transform.position.y >= 8f)
+                {
+                    if (isMove)
+                        angle = 0;
 
-        transform.position += move;
+                    isMove = false;
+                    if (transform.position.y >= 11f)
+                        isLeftRight = true;
+                }// end if
+            }// end else
+
+            if (isMove)
+            {
+                if (angle < 180f)
+                {
+                    angle += 3f * fSpeed;
+                    transform.localRotation = Quaternion.Euler( 0, 0, angle );
+                }// end if
+                transform.localPosition = Vector3.Lerp( transform.localPosition, new Vector3( currentPos.x + 4f, transform.localPosition.y, transform.localPosition.z ), Time.deltaTime * ( 2 * fSpeed ) );
+            }// end if
+            else
+            {
+                if (angle < 180f)
+                {
+                    angle += 3f * fSpeed;
+                    transform.localRotation = Quaternion.Euler( 0, 0, 180 + angle );
+                }
+                transform.localPosition = Vector3.Lerp( transform.localPosition, new Vector3( currentPos.x, transform.localPosition.y, transform.localPosition.z ), Time.deltaTime * ( 2 * fSpeed ) );
+            }// end else
+
+            transform.position += move;
+        }// end if
+
     }
 }

@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 movePower;
     public float maxPower;
+    public bool isControll { get; set; }
+    public bool isPlayerDirection { get; set; }// true: 右向き,  false: 左向き
 
-    private bool isPlayerDirection = true;// true: 右向き,  false: 左向き
     private bool isJumpReady = false;
     private Animator anim;
     private PlayerState playerState;
@@ -16,6 +17,8 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        isPlayerDirection = true;
+        isControll = true;
         playerState = GetComponentInChildren<CarryCup>().playerState;
         GetComponent<SphereCollider>().isTrigger = true;
         anim = GetComponent<Animator>();
@@ -25,11 +28,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (isPlayerDirection)
+            transform.rotation = Quaternion.Euler( 0, 90, 0 );
+        else
+            transform.rotation = Quaternion.Euler( 0, -90, 0 );
     }
 
     void FixedUpdate()
     {
+        if (isControll == false)
+            return;
+
         Vector3 move = Vector3.zero;
         move.x = Input.GetAxis( "Horizontal" ) * movePower.x;
 
@@ -57,7 +66,6 @@ public class PlayerController : MonoBehaviour
             isJumpReady = false;
             anim.CrossFade( "Jump", 0 );
         }
-
         transform.position += move;
 
     }
