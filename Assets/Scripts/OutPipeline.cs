@@ -28,9 +28,9 @@ public class OutPipeline : MonoBehaviour
     void Update()
     {
         // 水が流れた場合
-        if (inPipe.fRunningTime > 0f)
+        if (inPipe.nRunningTime > 0)
         {
-            inPipe.fRunningTime -= 0.1f;
+            inPipe.nRunningTime -= 1;
             waterParticle.Play();
         }
         else

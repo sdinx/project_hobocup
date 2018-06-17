@@ -5,7 +5,7 @@ using UnityEngine;
 public class InPipeline : MonoBehaviour
 {
 
-    public float fRunningTime;// 水が注がれた時間
+    public int nRunningTime;// 水が注がれた時間
 
     // Use this for initialization
     void Start()
@@ -21,7 +21,7 @@ public class InPipeline : MonoBehaviour
 
     void OnTriggerStay()
     {
-        fRunningTime += 0.1f;
+        nRunningTime += 2;
     }
 
 }

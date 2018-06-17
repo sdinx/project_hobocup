@@ -6,10 +6,11 @@ public class MoveFloor : MonoBehaviour
 {
 
     public Gimmick gimmick = null;
-    public float fSpeed = 1f;
-    public float fHeightLimit = 11f;
     public bool isLeftRight;
-
+    
+    private float fHeightLimit;
+    private float fLowLimit;
+    private float fSwitchX;
     private Vector3 currentPos;
     private bool isMove;
     private float angle;
@@ -17,6 +18,10 @@ public class MoveFloor : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        fHeightLimit = GetComponentInParent<MoveFloorManager>().fHeightLimit;
+        fLowLimit = GetComponentInParent<MoveFloorManager>().fLowLimit;
+        fSwitchX = GetComponentInParent<MoveFloorManager>().fSwitchX;
+
         currentPos = new Vector3();
         currentPos = transform.localPosition;
 
@@ -38,31 +43,32 @@ public class MoveFloor : MonoBehaviour
     {
         if (gimmick == null || gimmick.isGimmickEnable || gimmick.fGimmickControll != 0f)
         {
+            float fSpeed = GetComponentInParent<MoveFloorManager>().fSpeed;
             Vector3 move = new Vector3( 0, 0, 0 );
 
             if (isLeftRight)
             {
                 move.y = -0.1f * fSpeed;
-                if (transform.position.y <= 0f)
+                if (transform.position.y <= fLowLimit + fSwitchX) 
                 {
                     if (!isMove)
                         angle = 0;
                     isMove = true;
 
-                    if (transform.position.y <= -3f)
+                    if (transform.position.y <= fLowLimit)
                         isLeftRight = false;
                 }// end if
             }// end if
             else
             {
                 move.y = 0.1f * fSpeed;
-                if (transform.position.y >= 8f)
+                if (transform.position.y >= fHeightLimit - fSwitchX) 
                 {
                     if (isMove)
                         angle = 0;
 
                     isMove = false;
-                    if (transform.position.y >= 11f)
+                    if (transform.position.y >= fHeightLimit)
                         isLeftRight = true;
                 }// end if
             }// end else
