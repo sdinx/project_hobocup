@@ -39,15 +39,18 @@ public class PlayerController : MonoBehaviour
         if (isControll == false)
             return;
 
+
         Vector3 move = Vector3.zero;
         move.x = Input.GetAxis( "Horizontal" ) * movePower.x;
+        playerState = GetComponentInChildren<CarryCup>().playerState;
 
-        if (isJumpReady && move.x != 0f)
+        if ( move.x != 0f)
         {
-            if (( playerState == PlayerState.Return || playerState == PlayerState.None ))
-                anim.CrossFade( "CarryingWalk", 0 );
-            else
-                anim.CrossFade( "CarryingWalk", 0 );
+            if (isJumpReady == true)
+                if (( playerState == PlayerState.Return || playerState == PlayerState.None ))
+                    anim.CrossFade( "Walk", 0 );
+                else
+                    anim.CrossFade( "CarryingWalk", 0 );
 
             // プレイヤーの向き
             if (move.x > 0f)
@@ -55,18 +58,21 @@ public class PlayerController : MonoBehaviour
             else
                 isPlayerDirection = false;
         }
-        else if (isJumpReady && move.x == 0f)
+        else if ( move.x == 0f)
         {
-            anim.CrossFade( "Standby", 0 );
+            if (isJumpReady == true)
+                anim.CrossFade( "Standby", 0 );
         }
 
         if (isJumpReady && ( playerState == PlayerState.Return || playerState == PlayerState.None ) && Input.GetButtonDown( "Jump" ))
         {
             GetComponent<Rigidbody>().AddForce( new Vector3( 0, movePower.y, 0 ), ForceMode.Force );
             isJumpReady = false;
-            anim.CrossFade( "Jump", 0 );
         }
         transform.position += move;
+
+        if (isJumpReady == false)
+            anim.CrossFade( "Jump", 0 );
 
     }
 
