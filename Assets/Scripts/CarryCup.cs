@@ -70,7 +70,8 @@ public class CarryCup : MonoBehaviour
                 break;
         }// end switch
 
-        if (target.gameObject.GetComponent<FollowObject>() != null)
+        var follow = target.GetComponent<FollowObject>();
+        if (follow != null) 
             if (playerController.isPlayerDirection)
                 target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, 0, target.rotation.eulerAngles.z );
             else

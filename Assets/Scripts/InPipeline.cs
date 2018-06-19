@@ -19,9 +19,9 @@ public class InPipeline : MonoBehaviour
 
     }
 
-    void OnTriggerStay()
+    void OnTriggerEnter()
     {
-        nRunningTime += 2;
+        nRunningTime += 10;
     }
 
 }
