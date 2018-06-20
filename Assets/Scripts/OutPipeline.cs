@@ -32,7 +32,7 @@ public class OutPipeline : MonoBehaviour
         // 水が流れた場合
         if (receiverPipe.fNowWater > 0)
         {
-            receiverPipe.fNowWater -= 1;
+            receiverPipe.fNowWater -= 0.1f;
             if (isRun == false)
             {
                 waterParticle.Play();
