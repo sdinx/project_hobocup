@@ -18,8 +18,8 @@ public class InPipeline : MonoBehaviour
     {
 
     }
-
-    void OnTriggerEnter()
+    
+    void OnTriggerStay( Collider obj )
     {
         nRunningTime += 10;
     }

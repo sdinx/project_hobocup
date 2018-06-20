@@ -5,10 +5,11 @@ using UnityEngine;
 public class OutPipeline : MonoBehaviour
 {
 
-    public InPipeline inPipe;
+    public WaterReceiver receiverPipe;
 
     //private Vector3 outWaterPosition;
     private ParticleSystem waterParticle;
+    private bool isRun;
 
     // Use this for initialization
     void Start()
@@ -22,19 +23,28 @@ public class OutPipeline : MonoBehaviour
 
         waterParticle = GetComponentInChildren<ParticleSystem>();
         waterParticle.Stop();
+        isRun = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         // 水が流れた場合
-        if (inPipe.nRunningTime > 0)
+        if (receiverPipe.fNowWater > 0)
         {
-            inPipe.nRunningTime -= 1;
-            waterParticle.Play();
-        }
-        else
+            receiverPipe.fNowWater -= 1;
+            if (isRun == false)
+            {
+                waterParticle.Play();
+                isRun = true;
+            }// end if
+        }// end if
+        else if (receiverPipe.fNowWater <= 0 && isRun == true)
+        {
             waterParticle.Stop();
+            isRun = false;
+        }
 
     }
+
 }

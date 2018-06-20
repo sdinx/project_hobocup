@@ -20,7 +20,7 @@ public class MoveFloorCylinder : MonoBehaviour
     {
         if (gimmick == null || gimmick.isGimmickEnable)
         {
-            transform.localRotation = Quaternion.Euler( transform.localRotation.eulerAngles.x, ++fRotate, transform.localRotation.eulerAngles.z );
+            transform.localRotation = Quaternion.Euler( transform.localRotation.eulerAngles.x, --fRotate, transform.localRotation.eulerAngles.z );
         }// end if
 
     }

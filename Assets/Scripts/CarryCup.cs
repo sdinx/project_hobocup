@@ -19,7 +19,7 @@ public class CarryCup : MonoBehaviour
     public Vector3 carryPosition;
     public PlayerState playerState;
 
-    private Transform target = null;
+    private Transform target;
     private Vector3 targetDirection;
     private float currentTime;
     private Vector3 setEuler;
@@ -32,6 +32,7 @@ public class CarryCup : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        target = null;
         isTimerStarted = false;
         playerController = GetComponentInParent<PlayerController>();
         fReturnZ = playerController.GetComponentInParent<Transform>().position.z;
@@ -70,12 +71,15 @@ public class CarryCup : MonoBehaviour
                 break;
         }// end switch
 
-        var follow = target.GetComponent<FollowObject>();
-        if (follow != null) 
-            if (playerController.isPlayerDirection)
-                target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, 0, target.rotation.eulerAngles.z );
-            else
-                target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, -180, target.rotation.eulerAngles.z );
+        if (target != null)
+        {
+            var followObject = target.gameObject.GetComponent<FollowObject>();
+            if (followObject != null)
+                if (playerController.isPlayerDirection)
+                    target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, 0, target.rotation.eulerAngles.z );
+                else
+                    target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, -180, target.rotation.eulerAngles.z );
+        }
 
     }// end Update()
 

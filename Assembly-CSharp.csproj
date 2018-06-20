@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\RecoveryFallout.cs" />
     <Compile Include="Assets\Scripts\WaterGenerator.cs" />
+    <Compile Include="Assets\Scripts\WaterHitGimmic.cs" />
     <Compile Include="Assets\Scripts\WaterMillGimmick.cs" />
     <Compile Include="Assets\Scripts\WaterReceiver.cs" />
     <None Include="Assets\Models\妖精\ボーン、歩きアニメーション\アニメーション内容.txt" />
