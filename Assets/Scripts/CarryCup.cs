@@ -27,7 +27,8 @@ public class CarryCup : MonoBehaviour
     private bool isTimerStarted;
     private Animator animator;
     private PlayerController playerController;
-    private float fReturnZ = 0f;
+    private float fPlayerReturnZ = 0f;
+    private float fCupReturnZ = 0f;
 
     // Use this for initialization
     void Start()
@@ -35,7 +36,7 @@ public class CarryCup : MonoBehaviour
         target = null;
         isTimerStarted = false;
         playerController = GetComponentInParent<PlayerController>();
-        fReturnZ = playerController.GetComponentInParent<Transform>().position.z;
+        fPlayerReturnZ = playerController.GetComponentInParent<Transform>().position.z;
         animator = GetComponentInParent<Animator>();
         setEuler = new Vector3();
         stopWatch = new Stopwatch();
@@ -173,7 +174,7 @@ public class CarryCup : MonoBehaviour
         if (followObject != null)
             Destroy( followObject );
 
-        carrier.position = Vector3.Lerp( carrier.position, new Vector3( carrier.position.x, carrier.position.y, fReturnZ ), Time.deltaTime );
+        carrier.position = Vector3.Lerp( carrier.position, new Vector3( carrier.position.x, carrier.position.y, fPlayerReturnZ ), Time.deltaTime );
 
         return state;
     }// end ReturnState()

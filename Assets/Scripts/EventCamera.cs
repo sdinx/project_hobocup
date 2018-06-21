@@ -12,10 +12,11 @@ public class EventCamera : MonoBehaviour
     public Camera cloneCamera;
     public PlayerController playerController;
     public GameObject followObject;
-    public long fFollowTime;
+    public long lFollowTime;
+    public float fSpeed = 1f;
+    public Vector3 offset;
 
     private Stopwatch stopwatch;
-    private Camera camera;
     private Vector3 currentPos;
     private bool isFollowing;
 
@@ -23,9 +24,29 @@ public class EventCamera : MonoBehaviour
     void Start()
     {
         currentPos = new Vector3();
-        camera = new Camera();
-        camera = Instantiate( cloneCamera );
         stopwatch = new Stopwatch();
+        isFollowing = false;
+    }
+
+    void FixedUpdate()
+    {
+        if (isFollowing)
+        {
+            Vector3 move = new Vector3( followObject.transform.position.x + offset.x, followObject.transform.position.y + offset.y, cloneCamera.transform.position.z + offset.z );
+            cloneCamera.transform.position = Vector3.Slerp( cloneCamera.transform.position, move, Time.deltaTime * fSpeed );
+
+            if (stopwatch.ElapsedMilliseconds >= lFollowTime)
+            {
+                cloneCamera.GetComponent<FollowObject>().enabled = true;
+                isFollowing = false;
+                enabled = false;
+                playerController.isControll = true;
+                stopwatch.Stop();
+                stopwatch.Reset();
+                cloneCamera.transform.position = currentPos;
+            }
+
+        }
     }
 
     // Update is called once per frame
@@ -34,27 +55,10 @@ public class EventCamera : MonoBehaviour
         if (GetComponent<Gimmick>().isGimmickEnable && isFollowing == false)
         {
             currentPos= cloneCamera.transform.position;
-            //camera.transform.position = cloneCamera.transform.position;
+            cloneCamera.GetComponent<FollowObject>().enabled = false;
             stopwatch.Start();
-            //cloneCamera.enabled = false;
-            //camera.enabled = true;
             playerController.isControll = false;
             isFollowing = true;
-        }
-
-        if (isFollowing)
-        {
-            if (stopwatch.ElapsedMilliseconds > fFollowTime)
-            {
-                isFollowing = false;
-                //camera.enabled = false;
-                //cloneCamera.enabled = true;
-                stopwatch.Stop();
-                stopwatch.Reset();
-                cloneCamera.transform.position = currentPos;
-            }
-
-            cloneCamera.transform.position = Vector3.Slerp( currentPos, followObject.transform.position, Time.deltaTime );
         }
 
     }
