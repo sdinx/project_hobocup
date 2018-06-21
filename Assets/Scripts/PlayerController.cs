@@ -71,12 +71,12 @@ public class PlayerController : MonoBehaviour
         }
         transform.position += move;
 
-        if (isJumpReady == false)
+        if (isJumpReady == false && Input.GetButtonDown( "Jump" ))
             anim.CrossFade( "Jump", 0 );
 
     }
 
-    void OnTriggerEnter()
+    void OnTriggerStay()
     {
         isJumpReady = true;
     }

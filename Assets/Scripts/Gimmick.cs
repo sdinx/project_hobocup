@@ -30,5 +30,10 @@ public class Gimmick : MonoBehaviour
             fGimmickControll = waterMill.fWaterDirection;
         }// end else if
 
+        if (fGimmickControll > 0f || fGimmickControll < 0f)
+            isGimmickEnable = true;
+        else
+            isGimmickEnable = false;
+
     }
 }

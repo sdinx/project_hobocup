@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BalancerGimmick.cs" />
     <Compile Include="Assets\Scripts\CarryCup.cs" />
+    <Compile Include="Assets\Scripts\EventCamera.cs" />
     <Compile Include="Assets\Scripts\FollowObject.cs" />
     <Compile Include="Assets\Scripts\GateGimmick.cs" />
     <Compile Include="Assets\Scripts\Gimmick.cs" />

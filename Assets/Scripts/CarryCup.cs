@@ -40,10 +40,17 @@ public class CarryCup : MonoBehaviour
         setEuler = new Vector3();
         stopWatch = new Stopwatch();
     }// end Start()
+    private void FixedUpdate()
+    {
+        if (playerState != PlayerState.Carrying && playerState != PlayerState.Carry && Input.GetButtonDown( "Catch" ))
+            GetComponent<BoxCollider>().enabled = true;
+    }
 
     // Update is called once per frame
     void Update()
     {
+        GetComponent<BoxCollider>().enabled = false;
+
         switch (playerState)
         {
             case PlayerState.Carry:
@@ -87,7 +94,7 @@ public class CarryCup : MonoBehaviour
     void OnTriggerStay( Collider obj )
     {
 
-        if (playerState != PlayerState.Carrying && playerState != PlayerState.Carry && Input.GetButtonDown( "Catch" ) && obj.gameObject.CompareTag( "Cup" ))
+        if ( obj.gameObject.CompareTag( "Cup" ))
         {
             target = obj.gameObject.transform;
 
