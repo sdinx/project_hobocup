@@ -15,15 +15,18 @@ public class EventCamera : MonoBehaviour
     public long lFollowTime;
     public float fSpeed = 1f;
     public Vector3 offset;
+    public Vector3 rotateOffset;
 
     private Stopwatch stopwatch;
     private Vector3 currentPos;
+    private Quaternion currentQuat;
     private bool isFollowing;
 
     // Use this for initialization
     void Start()
     {
         currentPos = new Vector3();
+        currentQuat = new Quaternion();
         stopwatch = new Stopwatch();
         isFollowing = false;
     }
@@ -34,6 +37,7 @@ public class EventCamera : MonoBehaviour
         {
             Vector3 move = new Vector3( followObject.transform.position.x + offset.x, followObject.transform.position.y + offset.y, cloneCamera.transform.position.z + offset.z );
             cloneCamera.transform.position = Vector3.Slerp( cloneCamera.transform.position, move, Time.deltaTime * fSpeed );
+            cloneCamera.transform.rotation = Quaternion.Slerp( cloneCamera.transform.rotation, Quaternion.Euler( rotateOffset ), Time.deltaTime * fSpeed );
 
             if (stopwatch.ElapsedMilliseconds >= lFollowTime)
             {
@@ -44,6 +48,7 @@ public class EventCamera : MonoBehaviour
                 stopwatch.Stop();
                 stopwatch.Reset();
                 cloneCamera.transform.position = currentPos;
+                cloneCamera.transform.rotation = currentQuat;
             }
 
         }
@@ -55,6 +60,8 @@ public class EventCamera : MonoBehaviour
         if (GetComponent<Gimmick>().isGimmickEnable && isFollowing == false)
         {
             currentPos= cloneCamera.transform.position;
+            currentQuat = cloneCamera.transform.rotation;
+            //cloneCamera.orthographicSize = offset.z;
             cloneCamera.GetComponent<FollowObject>().enabled = false;
             stopwatch.Start();
             playerController.isControll = false;
