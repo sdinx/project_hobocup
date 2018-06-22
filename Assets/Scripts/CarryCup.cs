@@ -84,10 +84,10 @@ public class CarryCup : MonoBehaviour
             var followObject = target.gameObject.GetComponent<FollowObject>();
             if (followObject != null)
                 if (playerController.isPlayerDirection)
-                    target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, 0, target.rotation.eulerAngles.z );
+                    target.localRotation = Quaternion.Euler( target.localRotation.eulerAngles.x, 0, target.localRotation.eulerAngles.z );
                 else
-                    target.rotation = Quaternion.Euler( target.rotation.eulerAngles.x, -180, target.rotation.eulerAngles.z );
-        }
+                    target.localRotation = Quaternion.Euler( target.localRotation.eulerAngles.x, -180, target.localRotation.eulerAngles.z );
+        }// end if
 
     }// end Update()
 
@@ -109,6 +109,7 @@ public class CarryCup : MonoBehaviour
 
             targetDirection = direction;
             playerState = PlayerState.Carry;
+            playerController.isControll = false;
             currentTime = Time.deltaTime;
             stopWatch.Start();
         }
@@ -130,12 +131,14 @@ public class CarryCup : MonoBehaviour
             stopWatch.Stop();
             stopWatch.Reset();
             state = PlayerState.Carrying;
+            playerController.isControll = true;
         }
         else if (playerController.isControll && Input.GetButtonDown( "Jump" ))
         {
             stopWatch.Stop();
             stopWatch.Reset();
             state = PlayerState.Return;
+            playerController.isControll = true;
         }
 
         return state;
@@ -158,6 +161,7 @@ public class CarryCup : MonoBehaviour
         }
         else if (playerController.isControll && Input.GetButtonDown( "Catch" ))
         {
+            target.GetComponentInChildren<ParticleSystem>().Play();
             state = PlayerState.RunWater;
             setEuler = target.gameObject.transform.rotation.eulerAngles;
             setEuler.z = -100;
@@ -190,7 +194,7 @@ public class CarryCup : MonoBehaviour
         if (playerController.isControll && Input.GetButtonDown( "Fire3" ))
         {
             if (isTimerStarted == false)
-            {
+            {// コップの角度を戻す用のタイマー
                 isTimerStarted = true;
                 stopWatch.Start();
             }// end if
