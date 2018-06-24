@@ -106,7 +106,7 @@ public class CarryCup : MonoBehaviour
             // 正規化
             float distance = head.magnitude;
             var direction = head / distance;
-
+            
             targetDirection = direction;
             playerState = PlayerState.Carry;
             playerController.isControll = false;
@@ -123,11 +123,12 @@ public class CarryCup : MonoBehaviour
     public PlayerState CarryState()
     {
         PlayerState state = playerState;
-        carrier.position = Vector3.Slerp( carrier.position, target.position, Time.deltaTime );
-        target.position = Vector3.Slerp( target.position, carryPosition + carrier.position, Time.deltaTime );
+        carrier.position = Vector3.Slerp( carrier.position, target.position- carryPosition, Time.deltaTime );
+        //target.position = Vector3.Slerp( target.position, carryPosition + carrier.position, Time.deltaTime );
 
         if (stopWatch.ElapsedMilliseconds > 1500)
         {
+            playerController.GetComponent<Animator>().CrossFade( "CatchCup", 0 );
             stopWatch.Stop();
             stopWatch.Reset();
             state = PlayerState.Carrying;
@@ -161,6 +162,8 @@ public class CarryCup : MonoBehaviour
         }
         else if (playerController.isControll && Input.GetButtonDown( "Catch" ))
         {
+            playerController.GetComponent<Animator>().CrossFade( "PutWater", 0 );
+            playerController.isControll = false;
             target.GetComponentInChildren<ParticleSystem>().Play();
             state = PlayerState.RunWater;
             setEuler = target.gameObject.transform.rotation.eulerAngles;
@@ -185,18 +188,32 @@ public class CarryCup : MonoBehaviour
 
     public PlayerState RunWaterState()
     {
+        var receiver = target.GetComponent<WaterReceiver>();
         PlayerState state = playerState;
 
         //target.gameObject.transform.rotation = Quaternion.Euler(setEuler);
 
         target.gameObject.transform.rotation = Quaternion.Slerp( target.gameObject.transform.rotation, Quaternion.Euler( setEuler ), Time.deltaTime );
 
-        if (playerController.isControll && Input.GetButtonDown( "Fire3" ))
+        playerController.isControll = false;
+
+        if (receiver.fNowWater > 0)
+        {
+            receiver.fNowWater -= 0.1f;
+        }
+        else
+        {
+            target.GetComponentInChildren<ParticleSystem>().Stop();
+        }
+
+        if (Input.GetButtonDown( "Fire3" ))
         {
             if (isTimerStarted == false)
             {// コップの角度を戻す用のタイマー
                 isTimerStarted = true;
                 stopWatch.Start();
+                playerController.GetComponent<Animator>().SetFloat( "Speed", -1f );
+                playerController.GetComponent<Animator>().CrossFade( "PutWater", 0, 0, 1f );
             }// end if
 
         }
@@ -204,10 +221,13 @@ public class CarryCup : MonoBehaviour
         if (isTimerStarted == true)
             if (stopWatch.ElapsedMilliseconds > 3000)
             {
+                target.GetComponentInChildren<ParticleSystem>().Stop();
+                playerController.isControll = true;
                 isTimerStarted = false;
                 stopWatch.Stop();
                 stopWatch.Reset();
                 state = PlayerState.Carrying;
+                playerController.GetComponent<Animator>().SetFloat( "Speed", 1f );
             }// end if
             else
                 target.gameObject.transform.rotation = Quaternion.Lerp( target.gameObject.transform.rotation, Quaternion.Euler( 0, 0, 0 ), Time.deltaTime * 4 );

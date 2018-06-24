@@ -28,10 +28,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPlayerDirection)
-            transform.rotation = Quaternion.Euler( 0, 90, 0 );
-        else
-            transform.rotation = Quaternion.Euler( 0, -90, 0 );
+        if (playerState != PlayerState.Carry)
+            if (isPlayerDirection)
+                transform.rotation = Quaternion.Euler( 0, 90, 0 );
+            else
+                transform.rotation = Quaternion.Euler( 0, -90, 0 );
     }
 
     void FixedUpdate()
@@ -44,25 +45,26 @@ public class PlayerController : MonoBehaviour
         move.x = Input.GetAxis( "Horizontal" ) * movePower.x;
         playerState = GetComponentInChildren<CarryCup>().playerState;
 
-        if ( move.x != 0f)
-        {
-            if (isJumpReady == true)
-                if (( playerState == PlayerState.Return || playerState == PlayerState.None ))
-                    anim.CrossFade( "Walk", 0 );
-                else
-                    anim.CrossFade( "CarryingWalk", 0 );
+        if (playerState != PlayerState.RunWater)
+            if (move.x != 0f)
+            {
+                if (isJumpReady == true)
+                    if (( playerState == PlayerState.Return || playerState == PlayerState.None ))
+                        anim.CrossFade( "Walk", 0 );
+                    else
+                        anim.CrossFade( "CarryingWalk", 0 );
 
-            // プレイヤーの向き
-            if (move.x > 0f)
-                isPlayerDirection = true;
-            else
-                isPlayerDirection = false;
-        }
-        else if ( move.x == 0f)
-        {
-            if (isJumpReady == true)
-                anim.CrossFade( "Standby", 0 );
-        }
+                // プレイヤーの向き
+                if (move.x > 0f)
+                    isPlayerDirection = true;
+                else if (move.x < 0f)
+                    isPlayerDirection = false;
+            }
+            else if (move.x == 0f)
+            {
+                if (isJumpReady == true)
+                    anim.CrossFade( "Standby", 0 );
+            }
 
         if (isJumpReady && ( playerState == PlayerState.Return || playerState == PlayerState.None ) && Input.GetButtonDown( "Jump" ))
         {

@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\GateGimmick.cs" />
      <Compile Include="Assets\Scripts\Gimmick.cs" />
      <Compile Include="Assets\Scripts\InPipeline.cs" />
+     <Compile Include="Assets\Scripts\LerpMove.cs" />
      <Compile Include="Assets\Scripts\MoveFloor.cs" />
      <Compile Include="Assets\Scripts\MoveFloorCylinder.cs" />
      <Compile Include="Assets\Scripts\MoveFloorManager.cs" />
