@@ -9,19 +9,26 @@ public class PlayerController : MonoBehaviour
     public float maxPower;
     public bool isControll { get; set; }
     public bool isPlayerDirection { get; set; }// true: 右向き,  false: 左向き
+    public bool isJumpReady { get; set; }
 
-    private bool isJumpReady = false;
     private Animator anim;
     private PlayerState playerState;
+
+    void Awake()
+    {
+        GetComponent<Animator>().SetFloat( "Offset", 0.3615f );
+    }
 
     // Use this for initialization
     void Start()
     {
+        isJumpReady = false;
         isPlayerDirection = true;
         isControll = true;
         playerState = GetComponentInChildren<CarryCup>().playerState;
         GetComponent<SphereCollider>().isTrigger = true;
         anim = GetComponent<Animator>();
+        anim.SetFloat( "Offset", 0.3615f );
         anim.CrossFade( "Standby", 0 );
     }
 
@@ -59,12 +66,16 @@ public class PlayerController : MonoBehaviour
                     isPlayerDirection = true;
                 else if (move.x < 0f)
                     isPlayerDirection = false;
-            }
+
+            }// end if
             else if (move.x == 0f)
             {
                 if (isJumpReady == true)
+                {
+                    anim.SetFloat( "Offset", 0.3615f );
                     anim.CrossFade( "Standby", 0 );
-            }
+                }// end if
+            }// end if
 
         if (isJumpReady && ( playerState == PlayerState.Return || playerState == PlayerState.None ) && Input.GetButtonDown( "Jump" ))
         {
@@ -74,7 +85,9 @@ public class PlayerController : MonoBehaviour
         transform.position += move;
 
         if (isJumpReady == false && Input.GetButtonDown( "Jump" ))
+        {
             anim.CrossFade( "Jump", 0 );
+        }// end if
 
     }
 

@@ -123,11 +123,11 @@ public class CarryCup : MonoBehaviour
     public PlayerState CarryState()
     {
         PlayerState state = playerState;
-        carrier.position = Vector3.Slerp( carrier.position, target.position- carryPosition, Time.deltaTime );
-        //target.position = Vector3.Slerp( target.position, carryPosition + carrier.position, Time.deltaTime );
+        carrier.position = Vector3.Slerp( carrier.position, target.position- new Vector3( carryPosition.x, 0f, carryPosition.z ), Time.deltaTime );
 
-        if (stopWatch.ElapsedMilliseconds > 1500)
+        if (stopWatch.ElapsedMilliseconds > 1300)
         {
+            target.position += new Vector3( 0f, carryPosition.y );
             playerController.GetComponent<Animator>().CrossFade( "CatchCup", 0 );
             stopWatch.Stop();
             stopWatch.Reset();
@@ -156,7 +156,7 @@ public class CarryCup : MonoBehaviour
             followObject.followObject = carrier;
         }
 
-        if (playerController.isControll && Input.GetButtonDown( "Fire3" ))
+        if (playerController.isControll && playerController.isJumpReady && Input.GetButtonDown( "Fire3" ))
         {
             state = PlayerState.Return;
         }
@@ -191,11 +191,11 @@ public class CarryCup : MonoBehaviour
         var receiver = target.GetComponent<WaterReceiver>();
         PlayerState state = playerState;
 
-        //target.gameObject.transform.rotation = Quaternion.Euler(setEuler);
-
-        target.gameObject.transform.rotation = Quaternion.Slerp( target.gameObject.transform.rotation, Quaternion.Euler( setEuler ), Time.deltaTime );
-
-        playerController.isControll = false;
+        if (isTimerStarted == false)
+        {
+            target.gameObject.transform.rotation = Quaternion.Slerp( target.gameObject.transform.rotation, Quaternion.Euler( setEuler ), Time.deltaTime );
+            playerController.isControll = false;
+        }
 
         if (receiver.fNowWater > 0)
         {
@@ -219,7 +219,7 @@ public class CarryCup : MonoBehaviour
         }
 
         if (isTimerStarted == true)
-            if (stopWatch.ElapsedMilliseconds > 3000)
+            if (stopWatch.ElapsedMilliseconds > 1200)
             {
                 target.GetComponentInChildren<ParticleSystem>().Stop();
                 playerController.isControll = true;
