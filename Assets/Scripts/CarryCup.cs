@@ -82,7 +82,7 @@ public class CarryCup : MonoBehaviour
         if (target != null)
         {
             var followObject = target.gameObject.GetComponent<FollowObject>();
-            if (followObject != null)
+            if (followObject != null && playerState != PlayerState.RunWater)
                 if (playerController.isPlayerDirection)
                     target.localRotation = Quaternion.Euler( target.localRotation.eulerAngles.x, 0, target.localRotation.eulerAngles.z );
                 else
@@ -123,12 +123,14 @@ public class CarryCup : MonoBehaviour
     public PlayerState CarryState()
     {
         PlayerState state = playerState;
-        carrier.position = Vector3.Slerp( carrier.position, target.position- new Vector3( carryPosition.x, 0f, carryPosition.z ), Time.deltaTime );
+        carrier.position = Vector3.Slerp( carrier.position, target.position - new Vector3( carryPosition.x, 0f, carryPosition.z ), Time.deltaTime );
 
-        if (stopWatch.ElapsedMilliseconds > 1300)
+        if (stopWatch.ElapsedMilliseconds > 300)
+            playerController.GetComponent<Animator>().CrossFade( "CatchCup", 0 );
+
+        if (stopWatch.ElapsedMilliseconds > 1500)
         {
             target.position += new Vector3( 0f, carryPosition.y );
-            playerController.GetComponent<Animator>().CrossFade( "CatchCup", 0 );
             stopWatch.Stop();
             stopWatch.Reset();
             state = PlayerState.Carrying;
@@ -219,9 +221,12 @@ public class CarryCup : MonoBehaviour
         }
 
         if (isTimerStarted == true)
+        {
+            if (stopWatch.ElapsedMilliseconds > 700)
+                target.GetComponentInChildren<ParticleSystem>().Stop();
+
             if (stopWatch.ElapsedMilliseconds > 1200)
             {
-                target.GetComponentInChildren<ParticleSystem>().Stop();
                 playerController.isControll = true;
                 isTimerStarted = false;
                 stopWatch.Stop();
@@ -231,6 +236,7 @@ public class CarryCup : MonoBehaviour
             }// end if
             else
                 target.gameObject.transform.rotation = Quaternion.Lerp( target.gameObject.transform.rotation, Quaternion.Euler( 0, 0, 0 ), Time.deltaTime * 4 );
+        }
 
         return state;
     }// end RunWaterState()
