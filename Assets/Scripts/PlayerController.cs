@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
 {
 
     public Vector2 movePower;
-    public float maxPower;
+    public float fWeightCollect;
+    public float fCupWeight { get; set; }
     public bool isControll { get; set; }
     public bool isPlayerDirection { get; set; }// true: 右向き,  false: 左向き
     public bool isJumpReady { get; set; }
@@ -49,17 +50,23 @@ public class PlayerController : MonoBehaviour
 
 
         Vector3 move = Vector3.zero;
-        move.x = Input.GetAxis( "Horizontal" ) * movePower.x;
+        float moveX = Input.GetAxis( "Horizontal" );
         playerState = GetComponentInChildren<CarryCup>().playerState;
 
         if (playerState != PlayerState.RunWater)
-            if (move.x != 0f)
+            if (moveX != 0f)
             {
+                move.x = moveX * movePower.x;
                 if (isJumpReady == true)
                     if (( playerState == PlayerState.Return || playerState == PlayerState.None ))
                         anim.CrossFade( "Walk", 0 );
-                    else
-                        anim.CrossFade( "CarryingWalk", 0 );
+
+                if (playerState == PlayerState.Carrying)
+                {
+                    move.x = moveX * ( movePower.x * ( 1f - fCupWeight ) );
+                    anim.SetFloat( "Speed", -( fCupWeight - 1f ) );
+                    anim.CrossFade( "CarryingWalk", 0 );
+                }
 
                 // プレイヤーの向き
                 if (move.x > 0f)

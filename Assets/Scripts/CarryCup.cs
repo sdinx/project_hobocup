@@ -95,7 +95,7 @@ public class CarryCup : MonoBehaviour
     void OnTriggerStay( Collider obj )
     {
 
-        if ( obj.gameObject.CompareTag( "Cup" ))
+        if (obj.gameObject.CompareTag( "Cup" ) && ( playerState == PlayerState.None || playerState == PlayerState.Return ))
         {
             target = obj.gameObject.transform;
 
@@ -154,7 +154,13 @@ public class CarryCup : MonoBehaviour
 
     public PlayerState CarryingState()
     {
+        var receiver = target.GetComponent<WaterReceiver>();
         PlayerState state = playerState;
+
+        // 水量を計算
+        playerController.fCupWeight = receiver.fNowWater / receiver.fAmountWater;
+        if (playerController.fCupWeight > 0.9f)
+            playerController.fCupWeight = 0.9f;
 
         var followObject = target.gameObject.GetComponent<FollowObject>();
         if (followObject == null)
@@ -169,6 +175,7 @@ public class CarryCup : MonoBehaviour
         }
         else if (playerController.isControll && Input.GetButtonDown( "Catch" ))
         {
+            playerController.GetComponent<Animator>().SetFloat( "Speed", 1f );
             playerController.GetComponent<Animator>().CrossFade( "PutWater", 0 );
             playerController.isControll = false;
             target.GetComponentInChildren<ParticleSystem>().Play();
@@ -230,7 +237,7 @@ public class CarryCup : MonoBehaviour
 
         if (isTimerStarted == true)
         {
-            if (stopWatch.ElapsedMilliseconds > 700)
+            if (stopWatch.ElapsedMilliseconds > 300)
                 target.GetComponentInChildren<ParticleSystem>().Stop();
 
             if (stopWatch.ElapsedMilliseconds > 1200)
