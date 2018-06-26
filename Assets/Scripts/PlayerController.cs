@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
         if (isControll == false)
             return;
 
-
         Vector3 move = Vector3.zero;
         float moveX = Input.GetAxis( "Horizontal" );
         playerState = GetComponentInChildren<CarryCup>().playerState;
