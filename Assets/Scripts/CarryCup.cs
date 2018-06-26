@@ -112,6 +112,9 @@ public class CarryCup : MonoBehaviour
             playerController.isControll = false;
             currentTime = Time.deltaTime;
             stopWatch.Start();
+
+            // 重力の停止
+            target.GetComponent<Rigidbody>().useGravity = false;
         }
     }// end OnTriggerStay()
 
@@ -126,23 +129,25 @@ public class CarryCup : MonoBehaviour
         carrier.position = Vector3.Slerp( carrier.position, target.position - new Vector3( carryPosition.x, 0f, carryPosition.z ), Time.deltaTime );
 
         if (stopWatch.ElapsedMilliseconds > 300)
+        {
             playerController.GetComponent<Animator>().CrossFade( "CatchCup", 0 );
+            target.position = Vector3.Lerp( target.position, new Vector3( target.position.x, target.position.y + carryPosition.y, target.position.z ), Time.deltaTime );
+        }// end if
 
         if (stopWatch.ElapsedMilliseconds > 1500)
         {
-            target.position += new Vector3( 0f, carryPosition.y );
             stopWatch.Stop();
             stopWatch.Reset();
             state = PlayerState.Carrying;
             playerController.isControll = true;
-        }
+        }// end if
         else if (playerController.isControll && Input.GetButtonDown( "Jump" ))
         {
             stopWatch.Stop();
             stopWatch.Reset();
             state = PlayerState.Return;
             playerController.isControll = true;
-        }
+        }// end else if
 
         return state;
     }// end CarryState()
@@ -181,7 +186,10 @@ public class CarryCup : MonoBehaviour
 
         var followObject = target.gameObject.GetComponent<FollowObject>();
         if (followObject != null)
+        {
+            target.GetComponent<Rigidbody>().useGravity = true;
             Destroy( followObject );
+        }
 
         carrier.position = Vector3.Lerp( carrier.position, new Vector3( carrier.position.x, carrier.position.y, fPlayerReturnZ ), Time.deltaTime );
 

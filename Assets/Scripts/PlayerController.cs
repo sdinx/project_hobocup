@@ -70,11 +70,16 @@ public class PlayerController : MonoBehaviour
             }// end if
             else if (move.x == 0f)
             {
-                if (isJumpReady == true)
+                if (isJumpReady == true && playerState != PlayerState.Carrying)
                 {
-                    anim.SetFloat( "Offset", 0.3615f );
+                    anim.SetFloat( "Offset", 0.361f );
                     anim.CrossFade( "Standby", 0 );
                 }// end if
+                else if (playerState == PlayerState.Carrying)
+                {
+                    anim.SetFloat( "CarryingOffset", 0.518f );
+                    anim.CrossFade( "CarryingStandby", 0 );
+                }// end else if
             }// end if
 
         if (isJumpReady && ( playerState == PlayerState.Return || playerState == PlayerState.None ) && Input.GetButtonDown( "Jump" ))
