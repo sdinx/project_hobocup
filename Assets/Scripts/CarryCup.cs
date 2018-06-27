@@ -84,9 +84,13 @@ public class CarryCup : MonoBehaviour
             var followObject = target.gameObject.GetComponent<FollowObject>();
             if (followObject != null && playerState != PlayerState.RunWater)
                 if (playerController.isPlayerDirection)
+                {
                     target.localRotation = Quaternion.Euler( target.localRotation.eulerAngles.x, 0, target.localRotation.eulerAngles.z );
+                }
                 else
+                {
                     target.localRotation = Quaternion.Euler( target.localRotation.eulerAngles.x, -180, target.localRotation.eulerAngles.z );
+                }
         }// end if
 
     }// end Update()
@@ -159,8 +163,8 @@ public class CarryCup : MonoBehaviour
 
         // 水量を計算
         playerController.fCupWeight = receiver.fNowWater / receiver.fAmountWater;
-        if (playerController.fCupWeight > 0.9f)
-            playerController.fCupWeight = 0.9f;
+        if (playerController.fCupWeight > 0.5f)
+            playerController.fCupWeight = 0.5f;
 
         var followObject = target.gameObject.GetComponent<FollowObject>();
         if (followObject == null)
@@ -250,7 +254,12 @@ public class CarryCup : MonoBehaviour
                 playerController.GetComponent<Animator>().SetFloat( "Speed", 1f );
             }// end if
             else
-                target.gameObject.transform.rotation = Quaternion.Lerp( target.gameObject.transform.rotation, Quaternion.Euler( 0, 0, 0 ), Time.deltaTime * 4 );
+            {
+                if (playerController.isPlayerDirection)
+                    target.gameObject.transform.rotation = Quaternion.Lerp( target.gameObject.transform.rotation, Quaternion.Euler( 0, 0, 0 ), Time.deltaTime * 4 );
+                else
+                    target.gameObject.transform.rotation = Quaternion.Lerp( target.gameObject.transform.rotation, Quaternion.Euler( 0, -180, 0 ), Time.deltaTime * 4 );
+            }
         }
 
         return state;

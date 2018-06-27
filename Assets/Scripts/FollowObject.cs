@@ -5,7 +5,7 @@ using UnityEngine;
 public class FollowObject : MonoBehaviour {
 
     public Transform followObject;
-    private Vector3 distance;
+    public Vector3 distance { set; get; }
 
 	// Use this for initialization
 	void Start ()

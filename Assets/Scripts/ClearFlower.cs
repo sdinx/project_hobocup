@@ -26,7 +26,7 @@ public class ClearFlower : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isInWater == false && waterReceiver.fNowWater > 1f)
+        if (isInWater == false && waterReceiver.fNowWater >= 1f)
         {
             isInWater = true;
             stopwatch.Stop();
