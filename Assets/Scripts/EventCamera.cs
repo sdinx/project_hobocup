@@ -45,10 +45,6 @@ public class EventCamera : MonoBehaviour
             useCamera.transform.position = Vector3.Slerp( useCamera.transform.position, move, Time.deltaTime * fSpeed );
             useCamera.transform.rotation = Quaternion.Slerp( useCamera.transform.rotation, Quaternion.Euler( rotateOffset ), Time.deltaTime * fSpeed );
 
-            //useCamera.rect = new Rect( 
-            //    Vector2.Lerp( new Vector2( useCamera.rect.x, useCamera.rect.y ), camXY, Time.deltaTime ), 
-            //    Vector2.Lerp( new Vector2( useCamera.rect.width, useCamera.rect.height ), camWH, Time.deltaTime ) );
-
             if (stopwatch.ElapsedMilliseconds >= lFollowTime)
             {
                 useCamera.GetComponent<FollowObject>().enabled = true;
@@ -59,7 +55,6 @@ public class EventCamera : MonoBehaviour
                 stopwatch.Reset();
                 useCamera.transform.position = currentPos;
                 useCamera.transform.rotation = currentQuat;
-                //useCamera.rect = new Rect( 0f, 0f, 1f, 1f );
                 fadeObject.SetActive( false );
             }
 
@@ -73,7 +68,6 @@ public class EventCamera : MonoBehaviour
         {
             currentPos= useCamera.transform.position;
             currentQuat = useCamera.transform.rotation;
-            //useCamera.orthographicSize = offset.z;
             useCamera.GetComponent<FollowObject>().enabled = false;
             stopwatch.Start();
             playerController.isControll = false;
