@@ -6,12 +6,13 @@ public class Goal : MonoBehaviour
 {
 
     public ClearFlower[] clearFlowers;
-    public bool isGameClear { get; set; }
+    public bool isGameClear;
 
     // Use this for initialization
     void Start()
     {
-        isGameClear = false;
+       // isGameClear = false;
+
     }
 
     // Update is called once per frame
@@ -19,7 +20,7 @@ public class Goal : MonoBehaviour
     {
         foreach(var bloomFlower in clearFlowers)
         {
-            //isGameClear = bloomFlower.isBloom;
+            isGameClear = bloomFlower.isBloom;
             if (isGameClear == false)
                 break;
         }
