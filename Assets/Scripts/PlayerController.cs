@@ -102,13 +102,15 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void OnTriggerStay()
+    void OnTriggerStay( Collider collider )
     {
-        isJumpReady = true;
+        if (!collider.CompareTag( "OnlyPlayer" ))
+            isJumpReady = true;
     }
 
-    void OnTriggerExit()
+    void OnTriggerExit( Collider collider )
     {
-        isJumpReady = false;
+        if (!collider.CompareTag( "OnlyPlayer" ))
+            isJumpReady = false;
     }
 }
