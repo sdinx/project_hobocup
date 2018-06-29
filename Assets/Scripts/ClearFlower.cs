@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class ClearFlower : MonoBehaviour
 {
-    
+
+    public GameObject bloomFlower;
     public bool isBloom { get; set; }
 
     private ParticleSystem particle;
@@ -41,6 +42,9 @@ public class ClearFlower : MonoBehaviour
             {
                 particle.Stop();
                 // 咲いた花に差し替える
+                Instantiate( bloomFlower, GetComponentInParent<Transform>() );
+
+                //gameObject.SetActive( false );
             }
         }
 
