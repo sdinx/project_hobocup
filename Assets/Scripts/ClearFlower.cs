@@ -38,11 +38,16 @@ public class ClearFlower : MonoBehaviour
 
         if(isInWater)
         {
-            if (stopwatch.ElapsedMilliseconds > 1500)
+            if (stopwatch.ElapsedMilliseconds > 500)
             {
+                stopwatch.Stop();
+                stopwatch.Reset();
                 particle.Stop();
                 // 咲いた花に差し替える
-                Instantiate( bloomFlower, GetComponentInParent<Transform>() );
+                GameObject bloomObject = Instantiate( bloomFlower, GetComponent<Transform>() );
+                bloomObject.transform.localPosition = new Vector3( 0f, 0f );
+
+                //bloomObject.transform.rotation = Quaternion.Euler( new Vector3( 0f, Random.Range( 0f, 360f ), 0f ) );
 
                 //gameObject.SetActive( false );
             }
