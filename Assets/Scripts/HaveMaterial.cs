@@ -7,11 +7,6 @@ public class HaveMaterial : MonoBehaviour
 
     public Material material;
 
-    private void Awake()
-    {
-        
-    }
-
     // Use this for initialization
     void Start()
     {

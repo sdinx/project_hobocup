@@ -9,41 +9,53 @@ using UnityEngine;
 public class EventCamera : MonoBehaviour
 {
 
-    public Camera cloneCamera;
+    public Camera useCamera;
     public PlayerController playerController;
     public GameObject followObject;
     public long lFollowTime;
     public float fSpeed = 1f;
     public Vector3 offset;
+    public Vector3 rotateOffset;
+    public GameObject fadeObject;
 
     private Stopwatch stopwatch;
     private Vector3 currentPos;
+    private Quaternion currentQuat;
     private bool isFollowing;
+    private Vector2 camXY;
+    private Vector2 camWH;
 
     // Use this for initialization
     void Start()
     {
         currentPos = new Vector3();
+        currentQuat = new Quaternion();
         stopwatch = new Stopwatch();
         isFollowing = false;
+
+        camXY = new Vector2( 0, 0.1f );
+        camWH = new Vector2( 1f, 0.76f );
     }
 
     void FixedUpdate()
     {
         if (isFollowing)
         {
-            Vector3 move = new Vector3( followObject.transform.position.x + offset.x, followObject.transform.position.y + offset.y, cloneCamera.transform.position.z + offset.z );
-            cloneCamera.transform.position = Vector3.Slerp( cloneCamera.transform.position, move, Time.deltaTime * fSpeed );
+            Vector3 move = new Vector3( followObject.transform.position.x + offset.x, followObject.transform.position.y + offset.y, useCamera.transform.position.z + offset.z );
+            useCamera.transform.position = Vector3.Slerp( useCamera.transform.position, move, Time.deltaTime * fSpeed );
+            useCamera.transform.rotation = Quaternion.Slerp( useCamera.transform.rotation, Quaternion.Euler( rotateOffset ), Time.deltaTime * fSpeed );
 
             if (stopwatch.ElapsedMilliseconds >= lFollowTime)
             {
-                cloneCamera.GetComponent<FollowObject>().enabled = true;
+                useCamera.GetComponent<FollowObject>().enabled = true;
                 isFollowing = false;
                 enabled = false;
                 playerController.isControll = true;
                 stopwatch.Stop();
                 stopwatch.Reset();
-                cloneCamera.transform.position = currentPos;
+                useCamera.transform.position = currentPos;
+                useCamera.transform.rotation = currentQuat;
+                fadeObject.SetActive( false );
             }
 
         }
@@ -54,11 +66,13 @@ public class EventCamera : MonoBehaviour
     {
         if (GetComponent<Gimmick>().isGimmickEnable && isFollowing == false)
         {
-            currentPos= cloneCamera.transform.position;
-            cloneCamera.GetComponent<FollowObject>().enabled = false;
+            currentPos= useCamera.transform.position;
+            currentQuat = useCamera.transform.rotation;
+            useCamera.GetComponent<FollowObject>().enabled = false;
             stopwatch.Start();
             playerController.isControll = false;
             isFollowing = true;
+            fadeObject.SetActive( true );
         }
 
     }

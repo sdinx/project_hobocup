@@ -1,0 +1,208 @@
+fileFormatVersion: 2
+guid: f3581839261cf4b498c3802276525758
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Dendorobium:pPlane10
+    100002: Dendorobium:pSphere5
+    100004: //RootNode
+    100006: pCylinder10
+    100008: pCylinder11
+    100010: pCylinder12
+    100012: pCylinder7
+    100014: pCylinder8
+    100016: pCylinder9
+    100018: pPlane10
+    100020: pPlane11
+    100022: pPlane11 1
+    100024: pPlane12
+    100026: pPlane12 1
+    100028: pPlane13
+    100030: pPlane13 1
+    100032: pPlane14
+    100034: pPlane14 1
+    100036: pSphere5
+    100038: shakunage:pCylinder10
+    100040: shakunage:pCylinder11
+    100042: shakunage:pCylinder6
+    100044: shakunage:pCylinder7
+    100046: shakunage:pCylinder8
+    100048: shakunage:pCylinder9
+    100050: transform1
+    100052: transform2
+    100054: transform3
+    100056: transform4
+    400000: Dendorobium:pPlane10
+    400002: Dendorobium:pSphere5
+    400004: //RootNode
+    400006: pCylinder10
+    400008: pCylinder11
+    400010: pCylinder12
+    400012: pCylinder7
+    400014: pCylinder8
+    400016: pCylinder9
+    400018: pPlane10
+    400020: pPlane11
+    400022: pPlane11 1
+    400024: pPlane12
+    400026: pPlane12 1
+    400028: pPlane13
+    400030: pPlane13 1
+    400032: pPlane14
+    400034: pPlane14 1
+    400036: pSphere5
+    400038: shakunage:pCylinder10
+    400040: shakunage:pCylinder11
+    400042: shakunage:pCylinder6
+    400044: shakunage:pCylinder7
+    400046: shakunage:pCylinder8
+    400048: shakunage:pCylinder9
+    400050: transform1
+    400052: transform2
+    400054: transform3
+    400056: transform4
+    2100000: Dendorobium_Cosmos_lambert3
+    2100002: Dendorobium_lambert2
+    2100004: Default_Material
+    2100006: shakunage1_Dendorobium_Cosmos_lambert4
+    2300000: Dendorobium:pPlane10
+    2300002: Dendorobium:pSphere5
+    2300004: pCylinder12
+    2300006: pCylinder7
+    2300008: pPlane10
+    2300010: pPlane11
+    2300012: pPlane11 1
+    2300014: pPlane12
+    2300016: pPlane12 1
+    2300018: pPlane13
+    2300020: pPlane13 1
+    2300022: pPlane14
+    2300024: pPlane14 1
+    2300026: pSphere5
+    2300028: shakunage:pCylinder10
+    2300030: shakunage:pCylinder11
+    2300032: shakunage:pCylinder6
+    2300034: shakunage:pCylinder7
+    2300036: shakunage:pCylinder8
+    2300038: shakunage:pCylinder9
+    3300000: Dendorobium:pPlane10
+    3300002: Dendorobium:pSphere5
+    3300004: pCylinder12
+    3300006: pCylinder7
+    3300008: pPlane10
+    3300010: pPlane11
+    3300012: pPlane11 1
+    3300014: pPlane12
+    3300016: pPlane12 1
+    3300018: pPlane13
+    3300020: pPlane13 1
+    3300022: pPlane14
+    3300024: pPlane14 1
+    3300026: pSphere5
+    3300028: shakunage:pCylinder10
+    3300030: shakunage:pCylinder11
+    3300032: shakunage:pCylinder6
+    3300034: shakunage:pCylinder7
+    3300036: shakunage:pCylinder8
+    3300038: shakunage:pCylinder9
+    4300000: Dendorobium:pSphere5
+    4300002: Dendorobium:pPlane10
+    4300004: pPlane11
+    4300006: pPlane12
+    4300008: pPlane13
+    4300010: pPlane14
+    4300012: shakunage:pCylinder11
+    4300014: shakunage:pCylinder10
+    4300016: shakunage:pCylinder9
+    4300018: shakunage:pCylinder8
+    4300020: shakunage:pCylinder7
+    4300022: shakunage:pCylinder6
+    4300024: pCylinder7
+    4300026: pSphere5
+    4300028: pPlane10
+    4300030: pPlane11
+    4300032: pPlane12
+    4300034: pPlane13
+    4300036: pPlane14
+    4300038: pCylinder12
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

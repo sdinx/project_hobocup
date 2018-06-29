@@ -80,7 +80,7 @@ public class MoveFloor : MonoBehaviour
                     angle += 3f * fSpeed;
                     transform.localRotation = Quaternion.Euler( 0, 0, angle );
                 }// end if
-                transform.localPosition = Vector3.Lerp( transform.localPosition, new Vector3( currentPos.x + 4f, transform.localPosition.y, transform.localPosition.z ), Time.deltaTime * ( 2 * fSpeed ) );
+                transform.localPosition = Vector3.Lerp( transform.localPosition, new Vector3( currentPos.x + 4.5f, transform.localPosition.y, transform.localPosition.z ), Time.deltaTime * ( 2 * fSpeed ) );
             }// end if
             else
             {

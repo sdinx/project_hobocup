@@ -6,6 +6,7 @@ public class OutPipeline : MonoBehaviour
 {
 
     public WaterReceiver receiverPipe;
+    public float toRecivedTrigger;
 
     //private Vector3 outWaterPosition;
     private ParticleSystem waterParticle;
@@ -30,7 +31,7 @@ public class OutPipeline : MonoBehaviour
     void Update()
     {
         // 水が流れた場合
-        if (receiverPipe.fNowWater > 0)
+        if (receiverPipe.fNowWater > toRecivedTrigger)
         {
             receiverPipe.fNowWater -= 0.1f;
             if (isRun == false)
