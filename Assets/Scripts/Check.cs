@@ -6,46 +6,49 @@ public class Check : MonoBehaviour
 {
 
     public CarryCup carrier;
-    public Material material;
+    public Material material { get; set; }
 
     private void Awake()
     {
-        material = new Material(transform.GetChild(0).gameObject.gameObject.GetComponent<MeshRenderer>().material);
+        material = new Material( GetComponentInChildren<MeshRenderer>().material);
     }
 
 
     // Use this for initialization
     void Start()
     {
-        transform.GetChild(0).gameObject.gameObject.GetComponent<MeshRenderer>().material = material;
+        GetComponentInChildren<MeshRenderer>().material = material;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        var playerState = carrier.playerState;
+        if (playerState == PlayerState.Carry)
+            GetComponentInChildren<MeshRenderer>().material = material;
 
     }
-    void OnTriggerStay(Collider collider)
+    void OnTriggerStay( Collider collider )
     {
-        transform.GetChild(0).gameObject.gameObject.GetComponent<MeshRenderer>().material = collider.GetComponent<HaveMaterial>().material;
 
         var playerState = carrier.playerState;
-        if (collider.CompareTag("Cup"))
+        if (!collider.CompareTag( "Cup" ))
         {
-            if (playerState != PlayerState.None || playerState != PlayerState.Return)
+            if (playerState == PlayerState.None || playerState == PlayerState.Return)
             {
-                transform.GetChild(0).gameObject.gameObject.GetComponent<MeshRenderer>().material = material;
+                GetComponentInChildren<MeshRenderer>().material = material;
                 return;
 
             }
         }
-        else if(playerState == PlayerState.None || playerState == PlayerState.Return)
+        else if (playerState != PlayerState.None || playerState != PlayerState.Return)
         {
-            transform.GetChild(0).gameObject.gameObject.GetComponent<MeshRenderer>().material = material;
+            //GetComponentInChildren<MeshRenderer>().material = material;
             return;
         }
-                
+        GetComponentInChildren<MeshRenderer>().material = collider.GetComponent<HaveMaterial>().material;
+
 
     }
 
@@ -53,7 +56,7 @@ public class Check : MonoBehaviour
     {
 
 
-        transform.GetChild(0).gameObject.gameObject.GetComponent<MeshRenderer>().material = material;
+        GetComponentInChildren<MeshRenderer>().material = material;
 
 
 

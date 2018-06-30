@@ -16,6 +16,8 @@ public class WaterGenerator : MonoBehaviour {
     {
         isRun = true;
         runningWater = GetComponent<ParticleSystem>();
+        if (runningWater == null)
+            runningWater = GetComponentInChildren<ParticleSystem>();
         runningWater.Stop();
     }
 	

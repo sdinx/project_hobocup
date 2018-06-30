@@ -74,8 +74,10 @@
      <Compile Include="Assets\Scripts\WaterHitGimmic.cs" />
      <Compile Include="Assets\Scripts\WaterMillGimmick.cs" />
      <Compile Include="Assets\Scripts\WaterReceiver.cs" />
+     <Compile Include="Assets\WaterLeverGimmick.cs" />
      <None Include="Assets\Models\妖精\ボーン、歩きアニメーション\アニメーション内容.txt" />
      <None Include="Assets\Shaders\RefractionShader.shader" />
+     <None Include="Assets\SkySerie Freebie\Hdri setup.txt" />
      <None Include="Assets\Shaders\GlassShader.shader" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>G:/Unity/project_hobocup/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

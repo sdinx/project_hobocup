@@ -13,14 +13,18 @@ public class ClearFlower : MonoBehaviour
     private WaterReceiver waterReceiver;
     private bool isInWater;
     private Stopwatch stopwatch;
+    private Vector3 initPos;
 
     // Use this for initialization
     void Start()
     {
         isInWater = false;
         stopwatch = new Stopwatch();
-        waterReceiver = GetComponent<WaterReceiver>();
+        initPos = new Vector3();
         particle = GetComponentInChildren<ParticleSystem>();
+        initPos = particle.transform.position;
+        //initPos.z += 1000f;
+        waterReceiver = GetComponent<WaterReceiver>();
         particle.Stop();
     }
 
@@ -44,9 +48,14 @@ public class ClearFlower : MonoBehaviour
                 stopwatch.Reset();
                 particle.Stop();
                 // 咲いた花に差し替える
-                GameObject bloomObject = Instantiate( bloomFlower, GetComponent<Transform>() );
-                bloomObject.transform.localPosition = new Vector3( 0f, 0f );
-
+                GameObject bloomObject = Instantiate( bloomFlower, GetComponentInParent<Transform>() );
+                Vector3 pos = new Vector3( transform.position.x, transform.position.y, transform.position.z );
+                transform.localPosition = new Vector3( 0f, 0f, -1000f );
+                bloomObject.transform.position = pos;
+                GetComponentInChildren<ParticleSystem>().transform.position = initPos;
+                //GetComponent<Renderer>().enabled = false;
+                //bloomObject.transform.localPosition = new Vector3( bloomObject.transform.localPosition.x, 0f, bloomObject.transform.localPosition.z );
+                isBloom = true;
                 //bloomObject.transform.rotation = Quaternion.Euler( new Vector3( 0f, Random.Range( 0f, 360f ), 0f ) );
 
                 //gameObject.SetActive( false );

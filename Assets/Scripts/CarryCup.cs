@@ -7,6 +7,7 @@ public enum PlayerState
 {
     None = 0,
     Carry,
+    Lever,
     Carrying,
     RunWater,
     Return
@@ -27,12 +28,12 @@ public class CarryCup : MonoBehaviour
     private bool isTimerStarted;
     private Animator animator;
     private PlayerController playerController;
-    private float fPlayerReturnZ = 0f;
-    private float fCupReturnZ = 0f;
+    private float fPlayerReturnZ;
 
     // Use this for initialization
     void Start()
     {
+        fPlayerReturnZ = 0f;
         target = null;
         isTimerStarted = false;
         playerController = GetComponentInParent<PlayerController>();
@@ -41,6 +42,7 @@ public class CarryCup : MonoBehaviour
         setEuler = new Vector3();
         stopWatch = new Stopwatch();
     }// end Start()
+
     private void FixedUpdate()
     {
         if (playerState != PlayerState.Carrying && playerState != PlayerState.Carry && Input.GetButtonDown( "Catch" ))
@@ -57,6 +59,11 @@ public class CarryCup : MonoBehaviour
             case PlayerState.Carry:
             {
                 playerState = CarryState();
+            }
+            break;
+            case PlayerState.Lever:
+            {
+                playerState = LeverState();
             }
             break;
             case PlayerState.Carrying:
@@ -98,28 +105,43 @@ public class CarryCup : MonoBehaviour
     // 範囲内のコップの持ち上げ
     void OnTriggerStay( Collider obj )
     {
-
-        if (obj.gameObject.CompareTag( "Cup" ) && ( playerState == PlayerState.None || playerState == PlayerState.Return ))
+        if (( playerState == PlayerState.None || playerState == PlayerState.Return ))
         {
-            target = obj.gameObject.transform;
+            if (obj.gameObject.CompareTag( "Cup" ))
+            {
+                target = obj.gameObject.transform;
 
-            // 対象との差
-            var head = obj.transform.position - carrier.position;
-            head.y = 0;
+                // 対象との差
+                var head = obj.transform.position - carrier.position;
+                head.y = 0;
 
-            // 正規化
-            float distance = head.magnitude;
-            var direction = head / distance;
-            
-            targetDirection = direction;
-            playerState = PlayerState.Carry;
-            playerController.isControll = false;
-            currentTime = Time.deltaTime;
-            stopWatch.Start();
+                // 正規化
+                float distance = head.magnitude;
+                var direction = head / distance;
 
-            // 重力の停止
-            target.GetComponent<Rigidbody>().useGravity = false;
+                targetDirection = direction;
+                playerState = PlayerState.Carry;
+                playerController.isControll = false;
+                currentTime = Time.deltaTime;
+                stopWatch.Reset();
+                stopWatch.Stop();
+                stopWatch.Start();
+
+                // 重力の停止
+                target.GetComponent<Rigidbody>().useGravity = false;
+            }
+            else if(obj.gameObject.CompareTag( "Lever" ))
+            {
+                target = obj.gameObject.transform;
+                playerState = PlayerState.Lever;
+                playerController.isControll = false;
+                stopWatch.Reset();
+                stopWatch.Stop();
+                stopWatch.Start();
+                target.GetComponentInChildren<ParticleSystem>().Play();
+            }
         }
+
     }// end OnTriggerStay()
 
     void OnTriggerExit()
@@ -155,6 +177,36 @@ public class CarryCup : MonoBehaviour
 
         return state;
     }// end CarryState()
+    
+    public PlayerState LeverState()
+    {
+        PlayerState state = playerState;
+
+        target.GetComponent<Gimmick>().isGimmickEnable = true;
+
+        if (stopWatch.ElapsedMilliseconds < 500)
+        {
+            carrier.position = Vector3.Slerp( carrier.position, target.position - new Vector3( carryPosition.x + 1.5f, 0f, carryPosition.z ), Time.deltaTime );
+        }
+
+        if (stopWatch.ElapsedMilliseconds > 300)
+        {
+            playerController.GetComponent<Animator>().CrossFade( "DrawWater", 0 );
+
+        }// end if
+        
+        if (Input.GetButtonDown( "Catch" ))
+        {
+            target.GetComponent<Gimmick>().isGimmickEnable = false;
+            target.GetComponentInChildren<ParticleSystem>().Stop();
+            stopWatch.Stop();
+            stopWatch.Reset();
+            state = PlayerState.Return;
+            playerController.isControll = true;
+        }// end else if
+
+        return state;
+    }
 
     public PlayerState CarryingState()
     {
