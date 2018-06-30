@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\OutOfCup.cs" />
      <Compile Include="Assets\Scripts\BalancerGimmick.cs" />
      <Compile Include="Assets\Scripts\CarryCup.cs" />
      <Compile Include="Assets\Scripts\Check.cs" />

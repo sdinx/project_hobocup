@@ -29,10 +29,14 @@ public class CarryCup : MonoBehaviour
     private Animator animator;
     private PlayerController playerController;
     private float fPlayerReturnZ;
+    private Vector3 distancedR;
+    private Vector3 distancedL;
 
     // Use this for initialization
     void Start()
     {
+        distancedR = new Vector3();
+        distancedL = new Vector3();
         fPlayerReturnZ = 0f;
         target = null;
         isTimerStarted = false;
@@ -92,10 +96,12 @@ public class CarryCup : MonoBehaviour
             if (followObject != null && playerState != PlayerState.RunWater)
                 if (playerController.isPlayerDirection)
                 {
+                    followObject.distance = distancedR;
                     target.localRotation = Quaternion.Euler( target.localRotation.eulerAngles.x, 0, target.localRotation.eulerAngles.z );
                 }
                 else
                 {
+                    followObject.distance = distancedL;
                     target.localRotation = Quaternion.Euler( target.localRotation.eulerAngles.x, -180, target.localRotation.eulerAngles.z );
                 }
         }// end if
@@ -180,9 +186,9 @@ public class CarryCup : MonoBehaviour
 
         target.GetComponent<Gimmick>().isGimmickEnable = true;
 
-        if (stopWatch.ElapsedMilliseconds < 500)
+        if (stopWatch.ElapsedMilliseconds < 800)
         {
-            carrier.position = Vector3.Slerp( carrier.position, target.position - new Vector3( carryPosition.x + 1.5f, 0f, carryPosition.z ), Time.deltaTime );
+            carrier.position = Vector3.Slerp( carrier.position, target.position - new Vector3( carryPosition.x + 1.5f, 0f, carryPosition.z ), Time.deltaTime * 3f );
         }
 
         if (stopWatch.ElapsedMilliseconds > 300)
@@ -200,6 +206,8 @@ public class CarryCup : MonoBehaviour
             state = PlayerState.Return;
             playerController.isControll = true;
         }// end else if
+
+        carrier.rotation = Quaternion.Euler( 0, 90, 0 );
 
         return state;
     }
@@ -219,6 +227,12 @@ public class CarryCup : MonoBehaviour
         {
             followObject = target.gameObject.AddComponent<FollowObject>();
             followObject.followObject = carrier;
+            distancedR = followObject.distance;
+            distancedL = followObject.distance;
+            distancedR.x += 0.5f;
+            distancedL.x -= 0.5f;
+            distancedR.y -= 0.5f;
+            distancedL.y -= 0.5f;
         }
 
         if (playerController.isControll && playerController.isJumpReady && Input.GetButtonDown( "Fire3" ))
