@@ -19,7 +19,7 @@ public class Goal : MonoBehaviour
     {
         foreach(var bloomFlower in clearFlowers)
         {
-            //isGameClear = bloomFlower.isBloom;
+            isGameClear = bloomFlower.isBloom;
             if (isGameClear == false)
                 break;
         }
