@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-
+    public GameObject gameClear;
     public ClearFlower[] clearFlowers;
     public bool isGameClear;
-
+    
     // Use this for initialization
     void Start()
     {
+        gameClear.SetActive(false);   
        // isGameClear = false;
 
     }
@@ -27,6 +28,8 @@ public class Goal : MonoBehaviour
 
         if (isGameClear == true)
         {
+
+            gameClear.SetActive(true);
 
         }
     }
