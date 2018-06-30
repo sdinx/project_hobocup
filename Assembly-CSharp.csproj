@@ -56,6 +56,8 @@
      <Compile Include="Assets\Scripts\Check.cs" />
      <Compile Include="Assets\Scripts\ClearFlower.cs" />
      <Compile Include="Assets\Scripts\EventCamera.cs" />
+     <Compile Include="Assets\Scripts\FloatFloor.cs" />
+     <Compile Include="Assets\Scripts\FloatFloor_4.cs" />
      <Compile Include="Assets\Scripts\FollowObject.cs" />
      <Compile Include="Assets\Scripts\GateGimmick.cs" />
      <Compile Include="Assets\Scripts\Gimmick.cs" />
@@ -70,6 +72,7 @@
      <Compile Include="Assets\Scripts\OutPipeline.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\RecoveryFallout.cs" />
+     <Compile Include="Assets\Scripts\SceanManager.cs" />
      <Compile Include="Assets\Scripts\WaterGenerator.cs" />
      <Compile Include="Assets\Scripts\WaterHitGimmic.cs" />
      <Compile Include="Assets\Scripts\WaterMillGimmick.cs" />

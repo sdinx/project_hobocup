@@ -123,8 +123,6 @@ public class CarryCup : MonoBehaviour
                 playerState = PlayerState.Carry;
                 playerController.isControll = false;
                 currentTime = Time.deltaTime;
-                stopWatch.Reset();
-                stopWatch.Stop();
                 stopWatch.Start();
 
                 // 重力の停止
@@ -135,8 +133,6 @@ public class CarryCup : MonoBehaviour
                 target = obj.gameObject.transform;
                 playerState = PlayerState.Lever;
                 playerController.isControll = false;
-                stopWatch.Reset();
-                stopWatch.Stop();
                 stopWatch.Start();
                 target.GetComponentInChildren<ParticleSystem>().Play();
             }
@@ -195,7 +191,7 @@ public class CarryCup : MonoBehaviour
 
         }// end if
         
-        if (Input.GetButtonDown( "Catch" ))
+        if (Input.GetButtonDown( "Fire3" ))
         {
             target.GetComponent<Gimmick>().isGimmickEnable = false;
             target.GetComponentInChildren<ParticleSystem>().Stop();
